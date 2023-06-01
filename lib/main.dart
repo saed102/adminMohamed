@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.orange,
       ),
       home: MainScreen(),
 
@@ -58,30 +58,3 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class NAME extends StatelessWidget {
-  const NAME({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.red,
-      body: Container(
-        child: InkWell(
-            onTap: () async {
-              final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-              await _firestore
-                  .collection('categories')
-                  .get()
-                  .then((value){
-
-                    value.docs.forEach((element) {
-                      print(element.data());
-                    });
-              });
-            },
-            child: Center(child: Text("data",style: TextStyle(color: Colors.red),))),
-      ),
-    );
-  }
-}

@@ -27,7 +27,7 @@ class OrderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _vendorsStream =
-    FirebaseFirestore.instance.collection('order').snapshots();
+    FirebaseFirestore.instance.collection('orders').snapshots();
     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
     return StreamBuilder<QuerySnapshot>(
@@ -53,7 +53,7 @@ class OrderWidget extends StatelessWidget {
                       vendorData(
                         2,
                         Text(
-                          vendorUserData['name'],
+                          vendorUserData['fullName'],
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -66,39 +66,40 @@ class OrderWidget extends StatelessWidget {
                       ),
                       vendorData(
                         3,
-                        Text(vendorUserData['address'],
+                        Text(vendorUserData['address']??"",
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                       vendorData(
                         2,
-                        Text(vendorUserData['price'].toString(),
+                        Text(vendorUserData['productPrice'].toString(),
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
                   vendorData( 1,
-                      Text(vendorUserData['product'].length.toString(),
+                      Text(vendorUserData['quantity'].toString(),
                         style: TextStyle(fontWeight: FontWeight.bold),
                       )),
                       vendorData(
                           1,
-                          vendorUserData['name'] != false
+                          vendorUserData['accepted'] == false
                               ? ElevatedButton(
+
                               onPressed: ()async{
                                 await _firestore
-                                    .collection('vendors').
-                                doc(vendorUserData['vendorId'])
+                                    .collection('orders').
+                                doc(vendorUserData['orderId'])
                                     .update({
-                                  'approved': true,
+                                  'accepted': true,
                                 });
-                              }, child: Text('Approved'))
+                              }, child: Text('accepted'))
                               : ElevatedButton(
                               onPressed: ()async{
                                 await _firestore
-                                    .collection('vendors').
-                                doc(vendorUserData['vendorId'])
+                                    .collection('orders').
+                                doc(vendorUserData['orderId'])
                                     .update({
-                                  'approved': false,
+                                  'accepted': false,
                                 });
                               }, child: Text('Reject'))),
 
